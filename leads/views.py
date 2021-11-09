@@ -61,7 +61,6 @@ class LeadCreateView(CreateView):
         return reverse('leads:list-lead')
 
     def form_valid(self, form):
-        #TODO send email
         send_mail(
             subject='A lead has been created',
             message='Success',
