@@ -18,7 +18,7 @@
         <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
           <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/80x80">
           <div class="flex-grow">
-            <a href="#" class="text-gray-900 title-font font-medium hover:text-blue-500">{{ agent.user.username }} </a>
+            <a href="{% url 'agents:agent_detail' agent.pk %}" class="text-gray-900 title-font font-medium hover:text-blue-500">{{ agent.user.username }} </a>
            </div>
         </div>
       </div>

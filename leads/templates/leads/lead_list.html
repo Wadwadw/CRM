@@ -4,9 +4,11 @@
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-20">
       <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Our Leads</h1>
+        {% if request.user.is_organiser %}
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
           <a href="{% url 'leads:create-lead' %}" class="hover:text-blue-500">Create new lead</a>
       </p>
+        {% endif %}
     </div>
 
     <div class="flex flex-wrap -m-2">
