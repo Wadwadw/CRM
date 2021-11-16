@@ -1,3 +1,6 @@
+import random
+
+from django.core.mail import send_mail
 from django.urls import reverse
 from django.views import generic
 from leads.models import Agent
@@ -22,9 +25,24 @@ class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         return reverse('agents:agents_list')
 
     def form_valid(self, form):
-        agent = form.save(commit=False)
-        agent.organization = self.request.user.userprofile
-        agent.save()
+        string = 'qwertyuiopasdfghjklzxcvbnm1234567890'
+        random_password = ''.join((random.choice(string) for i in range(15)))
+        user = form.save(commit=False)
+        user.is_agent = True
+        user.is_organiser = False
+        user.set_password(f"{random_password}")
+        user.save()
+        Agent.objects.create(
+            user=user,
+            organization=self.request.user.userprofile
+        )
+        send_mail(
+            subject='You agent now',
+            message=f'You have bin invited in to CRM system, your username is "{user.username}",'
+                    f' and your password is "{random_password}"',
+            from_email='vadym@mail.com',
+            recipient_list=[user.email]
+        )
         return super(AgentCreateView, self).form_valid(form)
 
 
