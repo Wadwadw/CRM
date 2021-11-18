@@ -1,11 +1,15 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block content %}
+    <div class="container-md w-50">
 <a href="{% url 'agents:agents_list' %}">Go back</a>
 <hr/>
 <h1>Create a new Agent</h1>
-<form method="post">
+<form enctype="multipart/form-data" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
 </form>
+    </div>
 {% endblock content %}

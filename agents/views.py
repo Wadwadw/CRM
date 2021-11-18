@@ -1,9 +1,10 @@
 import random
+from time import time
 
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.views import generic
-from leads.models import Agent
+from leads.models import Agent, Lead
 from .forms import AgentModelForm
 from .mixins import OrganiserAndLoginRequiredMixin
 
@@ -34,7 +35,11 @@ class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         user.save()
         Agent.objects.create(
             user=user,
-            organization=self.request.user.userprofile
+            organization=self.request.user.userprofile,
+            first_name=user.first_name,
+            last_name=user.last_name,
+            agent_photo=user.user_photo
+
         )
         send_mail(
             subject='You agent now',
@@ -50,9 +55,15 @@ class AgentDetailView(OrganiserAndLoginRequiredMixin, generic.DetailView):
     template_name = 'agents/agent_detail.html'
     context_object_name = 'agent'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["leads"] = self.object.leads.all()
+        return context
+
     def get_queryset(self):
         organization = self.request.user.userprofile
-        return Agent.objects.filter(organization=organization)
+        agent = Agent.objects.filter(organization=organization)
+        return agent
 
 
 class AgentUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):

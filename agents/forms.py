@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
+from leads.models import User
 
 
 class AgentModelForm(forms.ModelForm):
@@ -11,5 +10,6 @@ class AgentModelForm(forms.ModelForm):
             'email',
             'username',
             'first_name',
-            'last_name'
+            'last_name',
+            'user_photo'
         )

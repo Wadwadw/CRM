@@ -13,7 +13,12 @@ class LeadModelForm(forms.ModelForm):
             'first_name',
             'last_name',
             'age',
-            'agent'
+            'agent',
+            'category',
+            'phone_number',
+            'description',
+            'email',
+            'profile_photo'
         )
 
 
@@ -26,7 +31,12 @@ class LeadForm(forms.Form):
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', )
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'user_photo'
+        )
         field_classes = {'username': UsernameField}
 
 
@@ -38,3 +48,11 @@ class AssignAgentForm(forms.Form):
         agents = Agent.objects.filter(organization=request.user.userprofile)
         super(AssignAgentForm, self).__init__(*args, **kwargs)
         self.fields['agent'].queryset = agents
+
+
+class LeadCategoryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Lead
+        fields = (
+            'category',
+        )
