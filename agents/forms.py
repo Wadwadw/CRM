@@ -1,5 +1,5 @@
 from django import forms
-
+from leads.models import Agent
 from leads.models import User
 
 
@@ -11,5 +11,13 @@ class AgentModelForm(forms.ModelForm):
             'username',
             'first_name',
             'last_name',
-            'user_photo'
         )
+
+
+class PhotoAddUpdateAgentForm(forms.ModelForm):
+    class Meta:
+        model = Agent
+        fields = (
+            'agent_photo',
+        )
+

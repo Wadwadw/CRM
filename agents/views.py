@@ -1,12 +1,14 @@
 import random
-from time import time
-
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.views import generic
-from leads.models import Agent, Lead
-from .forms import AgentModelForm
+from leads.models import Agent
+from .forms import AgentModelForm, PhotoAddUpdateAgentForm
 from .mixins import OrganiserAndLoginRequiredMixin
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class AgentListView(OrganiserAndLoginRequiredMixin, generic.ListView):
@@ -38,8 +40,6 @@ class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
             organization=self.request.user.userprofile,
             first_name=user.first_name,
             last_name=user.last_name,
-            agent_photo=user.user_photo
-
         )
         send_mail(
             subject='You agent now',
@@ -78,6 +78,18 @@ class AgentUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
         return Agent.objects.filter(organization=organization)
 
 
+class AgentPhotoUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
+    template_name = 'agents/agent_photo_update.html'
+    form_class = PhotoAddUpdateAgentForm
+
+    def get_success_url(self):
+        return reverse('agents:agents_list')
+
+    def get_queryset(self):
+        organization = self.request.user.userprofile
+        return Agent.objects.filter(organization=organization)
+
+
 class AgentDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
     template_name = 'agents/agent_delete.html'
     context_object_name = 'agent'
@@ -88,3 +100,7 @@ class AgentDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
     def get_queryset(self):
         organization = self.request.user.userprofile
         return Agent.objects.filter(organization=organization)
+
+
+
+

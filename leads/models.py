@@ -1,12 +1,26 @@
+import os
+
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 
 
+class ProfilePhoto(models.Model):
+    name = models.CharField(max_length=100)
+    photo = models.ImageField(null=True, blank=True, upload_to='user_photo/')
+
+    def __str__(self):
+        return self.name
+
+    def delete(self, using=None, keep_parents=False):
+        self.photo.storage.delete(self.photo.name)
+        super().delete()
+
 class User(AbstractUser):
     is_organiser = models.BooleanField(default=True)
     is_agent = models.BooleanField(default=False)
-    user_photo = models.ImageField(null=True, blank=True, upload_to='agent_photo/')
+    user_photo = models.OneToOneField('ProfilePhoto', null=True, blank=True, on_delete=models.SET_NULL)
 
 
 class UserProfile(models.Model):
@@ -28,7 +42,7 @@ class Lead(models.Model):
     email = models.EmailField()
     description = models.TextField()
     added = models.DateField(auto_now=True)
-    profile_photo = models.ImageField(null=True, blank=True, upload_to='user_photo/')
+    profile_photo = models.ImageField(null=True, blank=True, upload_to='leads_photo/')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -40,8 +54,7 @@ class Agent(models.Model):
     first_name = models.CharField(max_length=25, null=True, blank=True)
     last_name = models.CharField(max_length=30, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    agent_photo = models.ImageField(null=True, blank=True, upload_to='agent_photo/')
-
+    agent_photo = models.ImageField(null=True, blank=True, upload_to='agents_photo/')
 
     def __str__(self):
         return self.user.username
