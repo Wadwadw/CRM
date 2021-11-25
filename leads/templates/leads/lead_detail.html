@@ -10,13 +10,13 @@
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
                                 {% if lead.profile_photo %}
-                                    <img src="{{ MEDIA_URL }}{{ lead.profile_photo.photo.name }}" alt="photo"
+                                    <img src="{{ MEDIA_URL }}{{ lead.profile_photo }}" alt="photo"
                                          class="rounded-circle" width="150">
                                     <div class="mt-3">
                                     <h4>{{ lead.first_name }} {{ lead.last_name }}</h4>
                                     <p class="text-secondary mb-1">{{ lead.description }}</p>
                                 {% else %}
-                                    <img src="{{ MEDIA_URL }}standart_logo/img.png" alt="logo"
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="logo"
                                          class="rounded-circle" width="150">
                                     <div class="mt-3">
                                     <h4>{{ lead.first_name }} {{ lead.last_name }}</h4>

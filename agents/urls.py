@@ -5,7 +5,6 @@ from .views import (
     AgentDetailView,
     AgentUpdateView,
     AgentDeleteView,
-    UserListView,
     AgentPhotoUpdateView
 )
 
@@ -17,6 +16,5 @@ urlpatterns = [
     path('<int:pk>', AgentDetailView.as_view(), name='agent_detail'),
     path('<int:pk>/update/', AgentUpdateView.as_view(), name='agent_update'),
     path('<int:pk>/delete/', AgentDeleteView.as_view(), name='agent_delete'),
-    path('user-list/', UserListView.as_view(), name='user-list'),
     path('<int:pk>/agent-photo-update/', AgentPhotoUpdateView.as_view(), name='photo_update')
 ]

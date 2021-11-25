@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from leads.views import landing_page, LandingPageView, SignupView
+from news.views import NewsListView
 from django.contrib.auth.views import(
     LoginView,
     LogoutView,
@@ -15,7 +16,8 @@ from django.contrib.auth.views import(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LandingPageView.as_view(), name='landing-page'),
+    path('', NewsListView.as_view(), name='landing-page'),
+    path('news/', include("news.urls", namespace='news_det')),
     path('leads/', include('leads.urls', namespace='leads')),
     path('agents/', include('agents.urls', namespace='agents')),
     path('reset-password/', PasswordResetView.as_view(), name='reset-password'),

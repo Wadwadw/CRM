@@ -12,7 +12,10 @@
                                 {% if agent.agent_photo %}
                                     <img src="{{ MEDIA_URL }}{{ agent.agent_photo }}" alt="Admin"
                                      class="rounded-circle" width="150">
+                                    <a class="btn btn-outline-success" href="{% url 'agents:photo_update' agent.pk %}">Change Photo</a>
                                 {% else %}
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin"
+                                     class="rounded-circle" width="150">
                                     <a class="btn btn-outline-success" href="{% url 'agents:photo_update' agent.pk %}">Add Photo</a>
                                 {% endif %}
                                 <div class="mt-3">

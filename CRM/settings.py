@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # local
     'leads',
     'agents',
+    'news',
 
     # other
     'crispy_forms',
